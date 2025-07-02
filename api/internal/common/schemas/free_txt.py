@@ -30,6 +30,7 @@ class SentimentChartResponse(BaseModel):
 
 class SummarizationRequest(BaseModel):
     text: str = Field(description="Input text")
+    ratio: float = Field(description="Ratio of summary")
 
 
 class SummarizationResponse(BaseModel):
