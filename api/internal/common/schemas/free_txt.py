@@ -28,6 +28,10 @@ class SentimentChartResponse(BaseModel):
     words: List[SentimentChartWord] = Field(description="List word to represent")
 
 
+class SummarizationRequest(BaseModel):
+    text: str = Field(description="Input text")
+
+
 class SummarizationResponse(BaseModel):
     summarize_text: str = Field(description="Summarized Text")
 
