@@ -1,0 +1,8 @@
+fastapi
+loguru
+uvicorn[standard]
+pydantic
+pydantic_settings
+apscheduler
+nltk
+summa
