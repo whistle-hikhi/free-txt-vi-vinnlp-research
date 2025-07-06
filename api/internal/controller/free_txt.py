@@ -15,7 +15,5 @@ class FreeTxtController:
     async def summarization(
         self, sum_request: SummarizationRequest
     ) -> SummarizationResponse:
-        text = await self.summarizer.summarizer_summa(
-            sum_request.text, sum_request.ratio
-        )
+        text = await self.summarizer.sum_qwen(sum_request.text, sum_request.ratio)
         return SummarizationResponse(summarize_text=text)

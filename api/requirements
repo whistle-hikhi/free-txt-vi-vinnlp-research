@@ -8,3 +8,4 @@ nltk
 summa
 transformers
 torch
+accelerate

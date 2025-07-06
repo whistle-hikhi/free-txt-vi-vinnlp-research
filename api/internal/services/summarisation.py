@@ -3,31 +3,20 @@ from summa.summarizer import summarize as summa_summarizer
 from transformers import pipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import nltk
+import os
 
 nltk.download("punkt_tab")
 
 
 class Summarizer:
     def __init__(self):
-        # self.sum_bart_client = pipeline(
-        #     "summarization", model="facebook/bart-large-cnn"
-        # )
+
+        model_path = os.getenv("MODEL_PATH", "Qwen/Qwen2.5-0.5B-Instruct")
+
         self.sum_qwen_model = AutoModelForCausalLM.from_pretrained(
-            "Qwen/Qwen2.5-0.5B-Instruct", torch_dtype="auto", device_map="auto"
+            model_path, torch_dtype="auto", device_map="auto"
         )
-        self.sum_qwen_tokenizer = AutoTokenizer.from_pretrained(
-            "Qwen/Qwen2.5-0.5B-Instruct"
-        )
-
-    # async def sum_bart(self, input_text, chosen_ratio):
-    #     # Calculate summary length based on chosen_ratio
-    #     input_length = len(input_text.split())
-    #     max_length = max(int(input_length * chosen_ratio), 30)
-    #     min_length = max(int(max_length * 0.5), 10)
-
-    #     return self.sum_bart_client(
-    #         input_text, max_length=max_length, min_length=min_length, do_sample=False
-    #     )[0]["summary_text"]
+        self.sum_qwen_tokenizer = AutoTokenizer.from_pretrained(model_path)
 
     async def sum_qwen(self, input_text, chosen_ratio):
         # Calculate target word count based on chosen_ratio
