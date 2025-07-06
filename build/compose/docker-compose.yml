@@ -1,0 +1,10 @@
+services:
+  api:
+    image: ${PROJECT_NAME}/backend:base
+    container_name: ${PROJECT_NAME}-api
+    ports: 
+      - ${PORT}:8080
+    volumes:
+      - ../../api:/api
+    environment:
+      - PYTHONPATH=/api
