@@ -25,4 +25,4 @@ setup:
 	make build-base-image
 
 api-run:
-	${API_COMPOSE} sh -c 'python cmd/main.py'
+	${API_COMPOSE} sh -c 'python runner/main.py'

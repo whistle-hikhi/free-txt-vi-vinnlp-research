@@ -8,4 +8,4 @@ ENV PYTHONPATH=/api
 
 WORKDIR /api
 
-CMD [ "uvicorn", "cmd.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD [ "uvicorn", "runner.main:app", "--host", "0.0.0.0", "--port", "8000"]

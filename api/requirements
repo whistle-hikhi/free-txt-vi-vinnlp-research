@@ -6,3 +6,6 @@ pydantic_settings
 apscheduler
 nltk
 summa
+transformers
+torch
+accelerate

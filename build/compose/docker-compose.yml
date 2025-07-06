@@ -8,3 +8,4 @@ services:
       - ../../api:/api
     environment:
       - PYTHONPATH=/api
+      - MODEL_PATH=/models/qwen2.5-0.5b-instruct
