@@ -1,8 +1,67 @@
 from nltk import sent_tokenize
 from summa.summarizer import summarize as summa_summarizer
+from transformers import pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import nltk
+
+nltk.download("punkt_tab")
 
 
 class Summarizer:
+    def __init__(self):
+        # self.sum_bart_client = pipeline(
+        #     "summarization", model="facebook/bart-large-cnn"
+        # )
+        self.sum_qwen_model = AutoModelForCausalLM.from_pretrained(
+            "Qwen/Qwen2.5-0.5B-Instruct", torch_dtype="auto", device_map="auto"
+        )
+        self.sum_qwen_tokenizer = AutoTokenizer.from_pretrained(
+            "Qwen/Qwen2.5-0.5B-Instruct"
+        )
+
+    # async def sum_bart(self, input_text, chosen_ratio):
+    #     # Calculate summary length based on chosen_ratio
+    #     input_length = len(input_text.split())
+    #     max_length = max(int(input_length * chosen_ratio), 30)
+    #     min_length = max(int(max_length * 0.5), 10)
+
+    #     return self.sum_bart_client(
+    #         input_text, max_length=max_length, min_length=min_length, do_sample=False
+    #     )[0]["summary_text"]
+
+    async def sum_qwen(self, input_text, chosen_ratio):
+        # Calculate target word count based on chosen_ratio
+        input_words = len(input_text.split())
+        target_words = max(int(input_words * chosen_ratio), 10)
+
+        messages = [
+            {
+                "role": "system",
+                "content": f"Return the summary content in its language in approximately {target_words} words",
+            },
+            {"role": "user", "content": input_text},
+        ]
+        text = self.sum_qwen_tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        model_inputs = self.sum_qwen_tokenizer([text], return_tensors="pt").to(
+            self.sum_qwen_model.device
+        )
+
+        max_new_tokens = min(target_words * 2, 10000)
+
+        generated_ids = self.sum_qwen_model.generate(
+            **model_inputs, max_new_tokens=max_new_tokens
+        )
+        generated_ids = [
+            output_ids[len(input_ids) :]
+            for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+        ]
+
+        response = self.sum_qwen_tokenizer.batch_decode(
+            generated_ids, skip_special_tokens=True
+        )[0]
+        return response
 
     async def summarizer_summa(self, input_text, chosen_ratio):
 
