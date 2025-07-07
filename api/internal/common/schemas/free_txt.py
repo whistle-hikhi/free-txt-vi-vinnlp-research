@@ -2,7 +2,11 @@ from typing import Optional, List
 
 from pydantic import BaseModel, Field
 
-from internal.common.enums.free_txt import EnumSentimentLabel, EnumWordCloudMeasure
+from internal.common.enums.free_txt import (
+    EnumSentimentLabel,
+    EnumWordCloudMeasure,
+    EnumWordCloudType,
+)
 
 
 class Entry(BaseModel):
@@ -38,9 +42,14 @@ class SummarizationResponse(BaseModel):
 
 
 class WordCloudRequest(BaseModel):
-    text: str
-    reference_text: str = None  # Needed for log-likelihood/keyness
-    measurement_type: EnumWordCloudMeasure = Field("Measurement type")
+    text: str = Field(desciption="Text input")
+    reference_text: str = Field(
+        None, description="ref text for log-likelihood/keyness"
+    )  # Needed for log-likelihood/keyness
+    measurement_type: EnumWordCloudMeasure = Field(
+        description="Measurement type FREQUENCY, LOG_LIKELIHOOD, KEYNESS"
+    )
+    cloud_type: EnumWordCloudType = Field(description="Cloud type")
 
 
 class WordStat(BaseModel):
