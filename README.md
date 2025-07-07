@@ -11,4 +11,4 @@ This project base on these sources:
 
 #### Front End
  - [FE roadmap by mnpqraven](https://gist.github.com/mnpqraven/4a181843351dfc5415f33b89a37355f3)
- - [Some projects I have done with mnpqraven](https://github.com/mnpqraven)
+ - [mnpqraven](https://github.com/mnpqraven)
