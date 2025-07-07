@@ -7,3 +7,9 @@ class EnumSentimentLabel(str, Enum):
     NEGATIVE = "NEGATIVE"
     VERY_POSITIVE = "VERY_POSTIVE"
     VERY_NEGATIVE = "VERY_NEGATIVE"
+
+
+class EnumWordCloudMeasure(str, Enum):
+    FREQUENCY = "FREQUENCY"
+    LOG_LIKELIHOOD = "LOG_LIKELIHOOD"
+    KEYNESS = "KEYNESS"

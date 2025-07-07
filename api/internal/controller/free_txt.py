@@ -7,9 +7,12 @@ from internal.common.schemas.free_txt import (
     SummarizationResponse,
     WordTreeRequest,
     WordTreeResponse,
+    WordCloudRequest,
+    WordCloudResponse,
 )
 from internal.services.summarisation import Summarizer
 from internal.services.word_tree import WordTree
+from internal.services.word_cloud import WordCloud
 
 
 class FreeTxtController:
@@ -19,6 +22,7 @@ class FreeTxtController:
     def __init__(self):
         self.summarizer = Summarizer()
         self.wordtree = WordTree()
+        self.wordcloud = WordCloud()
 
     async def summarization(
         self, sum_request: SummarizationRequest
@@ -33,3 +37,10 @@ class FreeTxtController:
         return WordTreeResponse(
             word=tree["word"], left=tree["left"], right=tree["right"]
         )
+
+    async def gen_wordcloud(
+        self, wordcloud_request: WordCloudRequest
+    ) -> WordCloudResponse:
+        word_stats = await self.wordcloud.gen_wordcloud(wordcloud_request)
+
+        return WordCloudResponse(words=word_stats)

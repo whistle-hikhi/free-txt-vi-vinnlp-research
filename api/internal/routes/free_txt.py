@@ -46,14 +46,14 @@ class FreeTxtRoute:
             description="Sumarize the text input",
         )
 
-        # self.router.add_api_route(
-        #     path="/word_cloud",
-        #     endpoint=self.handler.word_cloud,
-        #     methods=["POST"],
-        #     response_model=WordCloudResponse,
-        #     summary="Word Cloud",
-        #     description="Create Word Cloud",
-        # )
+        self.router.add_api_route(
+            path="/word_cloud",
+            endpoint=self.handler.wordcloud,
+            methods=["POST"],
+            response_model=WordCloudResponse,
+            summary="Word Cloud",
+            description="Create Word Cloud",
+        )
 
         self.router.add_api_route(
             path="/word_tree",
