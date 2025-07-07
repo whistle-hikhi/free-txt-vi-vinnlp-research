@@ -55,14 +55,14 @@ class FreeTxtRoute:
         #     description="Create Word Cloud",
         # )
 
-        # self.router.add_api_route(
-        #     path="/word_tree",
-        #     endpoint=self.handler.word_tree,
-        #     methods=["POST"],
-        #     response_model=WordTreeResponse,
-        #     summary="Word Tree",
-        #     description="Create Word Tree",
-        # )
+        self.router.add_api_route(
+            path="/word_tree",
+            endpoint=self.handler.wordtree,
+            methods=["POST"],
+            response_model=WordTreeResponse,
+            summary="Word Tree",
+            description="Create Word Tree",
+        )
 
         # self.router.add_api_route(
         #     path="/word_use_relationships",

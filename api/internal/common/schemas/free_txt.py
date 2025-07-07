@@ -46,14 +46,15 @@ class WordCloudResponse(BaseModel):
     words: List[WordCloudWord] = Field(description="Many words and their score")
 
 
-class WordTreeWord(BaseModel):
+class WordTreeRequest(BaseModel):
+    text: str = Field(description="Input text")
     keyword: str = Field(description="Keyword in word tree")
-    prefix: dict = Field(description="Prefix")
-    suffix: dict = Field(description="Suffix")
 
 
 class WordTreeResponse(BaseModel):
-    keywords: List[WordTreeWord] = Field(description="List of words")
+    word: str = Field(description="Keyword")
+    left: dict = Field(description="Left side")
+    right: dict = Field(description="Right side")
 
 
 class SentenceEntry(BaseModel):
