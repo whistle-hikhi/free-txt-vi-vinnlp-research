@@ -11,6 +11,9 @@ RUN pip install -r requirements
 
 RUN mkdir -p /models
 
+RUN python -c "import nltk; \
+    nltk.download('punkt_tab')"
+
 RUN python -c "import os; \
     from transformers import AutoModelForCausalLM, AutoTokenizer; \
     print('Downloading Qwen2.5-0.5B-Instruct model...'); \

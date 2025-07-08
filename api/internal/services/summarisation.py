@@ -5,8 +5,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import nltk
 import os
 
-nltk.download("punkt_tab")
-
 
 class Summarizer:
     def __init__(self):
