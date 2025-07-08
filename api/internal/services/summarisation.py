@@ -2,10 +2,7 @@ from nltk import sent_tokenize
 from summa.summarizer import summarize as summa_summarizer
 from transformers import pipeline
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import nltk
 import os
-
-nltk.download("punkt_tab")
 
 
 class Summarizer:

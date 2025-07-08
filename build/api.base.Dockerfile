@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 COPY api/requirements requirements
 RUN pip install --upgrade pip
 RUN pip install -r requirements
-
+RUN python -m nltk.downloader punkt
 RUN mkdir -p /models
 
 RUN python -c "import os; \
