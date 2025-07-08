@@ -9,3 +9,5 @@ summa
 transformers
 torch
 accelerate
+vncorenlp
+spacy

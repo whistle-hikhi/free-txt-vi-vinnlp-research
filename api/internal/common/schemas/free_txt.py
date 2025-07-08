@@ -50,6 +50,9 @@ class WordCloudRequest(BaseModel):
         description="Measurement type FREQUENCY, LOG_LIKELIHOOD, KEYNESS"
     )
     cloud_type: EnumWordCloudType = Field(description="Cloud type")
+    language: str = Field(
+        default="en", description="Language of the text, default is English"
+    )
 
 
 class WordStat(BaseModel):

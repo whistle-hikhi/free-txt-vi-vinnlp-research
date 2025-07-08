@@ -19,6 +19,7 @@ class EnumWordCloudType(str, Enum):
     ALL_WORDS = "ALL_WORDS"
     NOUNS = "NOUS"
     PROPER_NOUNS = "PROPER_NOUNS"
+    VERBS = "VERBS"
     ADJECTIVES = "ADJECTIVES"
     ADVERBS = "ADVERBS"
     NUMBERS = "NUMBERS"
