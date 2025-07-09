@@ -9,7 +9,7 @@ import os
 class Summarizer:
     def __init__(self):
 
-        model_path = os.getenv("MODEL_PATH", "Qwen/Qwen2.5-0.5B-Instruct")
+        model_path = os.getenv("MODEL_PATH_SUM", "Qwen/Qwen2.5-0.5B-Instruct")
 
         self.sum_qwen_model = AutoModelForCausalLM.from_pretrained(
             model_path, torch_dtype="auto", device_map="auto"
