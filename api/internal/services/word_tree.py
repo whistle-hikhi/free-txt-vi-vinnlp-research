@@ -1,3 +1,4 @@
+import py_vncorenlp
 from collections import defaultdict
 from typing import List, Dict
 
@@ -27,15 +28,20 @@ class WordTreeNode:
 
 class WordTree:
     def __init__(self):
-        pass
+        self.model = py_vncorenlp.VnCoreNLP(
+            save_dir="/api/internal/services/pyvncorenlp"
+        )
 
     async def build_word_tree(self, text: str, keyword: str, window: int = 5):
-        tokens = text.split()
+        seg_text = self.model.word_segment(text)
+        seg_keyword = "".join(self.model.word_segment(keyword))
+        mod_text = " ".join(seg_text)
+        tokens = mod_text.split()
         left_tree = WordTreeNode()
         right_tree = WordTreeNode()
 
         for i, token in enumerate(tokens):
-            if token == keyword:
+            if token == seg_keyword:
                 left_context = tokens[max(0, i - window) : i][::-1]
                 right_context = tokens[i + 1 : i + 1 + window]
 
@@ -45,7 +51,7 @@ class WordTree:
                     right_tree.insert(right_context)
 
         return {
-            "word": keyword,
+            "word": seg_keyword,
             "left": left_tree.to_dict(),
             "right": right_tree.to_dict(),
         }

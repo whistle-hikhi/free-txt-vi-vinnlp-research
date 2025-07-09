@@ -9,3 +9,4 @@ summa
 transformers
 torch
 accelerate
+py_vncorenlp

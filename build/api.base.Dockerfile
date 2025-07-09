@@ -1,29 +1,48 @@
 FROM python:3.10-slim
 
+# Step 1: Install Java and system dependencies
 RUN apt-get update && apt-get install -y \
-    gcc curl \
+    default-jdk \
+    default-jre \
+    gcc \
     libpq-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
+# Step 2: Dynamically find JAVA_HOME and libjvm.so, then export env vars
+RUN JAVA_BIN=$(readlink -f $(which java)) && \
+    JAVA_HOME=$(dirname $(dirname $JAVA_BIN)) && \
+    LIBJVM=$(find $JAVA_HOME -name libjvm.so | head -n 1) && \
+    echo "export JAVA_HOME=$JAVA_HOME" >> /etc/profile.d/java.sh && \
+    echo "export JVM_PATH=$LIBJVM" >> /etc/profile.d/java.sh && \
+    echo "export PATH=$JAVA_HOME/bin:\$PATH" >> /etc/profile.d/java.sh && \
+    echo "export LD_LIBRARY_PATH=$(dirname $LIBJVM):\$LD_LIBRARY_PATH" >> /etc/profile.d/java.sh && \
+    chmod +x /etc/profile.d/java.sh && \
+    echo "Discovered JAVA_HOME=$JAVA_HOME and libjvm.so=$LIBJVM"
+
+# Step 3: Fallback env variables for pyjnius at runtime
+ENV JAVA_HOME=/usr/lib/jvm/default-java
+ENV JVM_PATH=$JAVA_HOME/lib/server/libjvm.so
+ENV PATH="$JAVA_HOME/bin:$PATH"
+ENV LD_LIBRARY_PATH=$JAVA_HOME/lib/server:$LD_LIBRARY_PATH
+
+# Step 4: Copy and install Python dependencies
 COPY api/requirements requirements
 RUN pip install --upgrade pip
 RUN pip install -r requirements
 
+# Step 5: Download Qwen model
 RUN mkdir -p /models
-
 RUN python -c "import nltk; \
     nltk.download('punkt_tab')"
-
+    
 RUN python -c "import os; \
     from transformers import AutoModelForCausalLM, AutoTokenizer; \
     print('Downloading Qwen2.5-0.5B-Instruct model...'); \
     model = AutoModelForCausalLM.from_pretrained('Qwen/Qwen2.5-0.5B-Instruct'); \
     tokenizer = AutoTokenizer.from_pretrained('Qwen/Qwen2.5-0.5B-Instruct'); \
-    print('Saving model to local directory...'); \
     model.save_pretrained('/models/qwen2.5-0.5b-instruct'); \
-    tokenizer.save_pretrained('/models/qwen2.5-0.5b-instruct'); \
-    print('Model saved successfully!')"
+    tokenizer.save_pretrained('/models/qwen2.5-0.5b-instruct')"
 
+# Step 6: Final model path
 ENV MODEL_PATH=/models/qwen2.5-0.5b-instruct
-
-RUN ls -la /models/qwen2.5-0.5b-instruct/
