@@ -19,14 +19,14 @@ class FreeTxtRoute:
         self.router = APIRouter()
         self.handler = handler
 
-        # self.router.add_api_route(
-        #     path="/meaning_analysis",
-        #     endpoint=self.handler.meaning_analysis,
-        #     methods=["POST"],
-        #     response_model=MeaningAnalysisResponse,
-        #     summary="Meaning Analysis",
-        #     description="Analysis the meaning of sentences",
-        # )
+        self.router.add_api_route(
+            path="/meaning_analysis",
+            endpoint=self.handler.meaning_analysis,
+            methods=["POST"],
+            response_model=MeaningAnalysisResponse,
+            summary="Meaning Analysis",
+            description="Analysis the meaning of sentences",
+        )
 
         # self.router.add_api_route(
         #     path="/sentiment_chart",

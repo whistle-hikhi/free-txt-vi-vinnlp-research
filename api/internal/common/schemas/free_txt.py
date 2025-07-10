@@ -5,14 +5,18 @@ from pydantic import BaseModel, Field
 from internal.common.enums.free_txt import EnumSentimentLabel
 
 
-class Entry(BaseModel):
-    review: str = Field(description="Sentence")
-    sentiment_label: EnumSentimentLabel = Field(description="Sentiment Label")
+class MeaningAnalysisRequest(BaseModel):
+    text: str = Field(description="Input text to analyze")
+
+
+class Sentence(BaseModel):
+    sentence: str = Field(description="Sentence to analyze")
+    score: float = Field(description="Score of the sentence")
+    label: EnumSentimentLabel = Field(description="Sentiment Label")
 
 
 class MeaningAnalysisResponse(BaseModel):
-    catergorise: int = Field(description="Sentiment Categorize")
-    entries: List[Entry] = Field(description="Sentiment Info")
+    sentences: List[Sentence] = Field(description="Sentiment Info")
 
 
 class SentimentChartWord(BaseModel):

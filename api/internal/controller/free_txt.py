@@ -7,18 +7,23 @@ from internal.common.schemas.free_txt import (
     SummarizationResponse,
     WordTreeRequest,
     WordTreeResponse,
+    MeaningAnalysisRequest,
+    MeaningAnalysisResponse,
 )
 from internal.services.summarisation import Summarizer
 from internal.services.word_tree import WordTree
+from internal.services.meaning_analysis import MeaningAnalyzer
 
 
 class FreeTxtController:
     summarizer: Summarizer
     wordtree: WordTree
+    meaning_analyzer: MeaningAnalyzer
 
     def __init__(self):
         self.summarizer = Summarizer()
         self.wordtree = WordTree()
+        self.meaning_analyzer = MeaningAnalyzer()
 
     async def summarization(
         self, sum_request: SummarizationRequest
@@ -33,3 +38,11 @@ class FreeTxtController:
         return WordTreeResponse(
             word=tree["word"], left=tree["left"], right=tree["right"]
         )
+
+    async def meaning_analysis(
+        self, meaning_analysis_request: MeaningAnalysisRequest
+    ) -> MeaningAnalysisResponse:
+        sentences = await self.meaning_analyzer.meaning_analyse(
+            meaning_analysis_request.text
+        )
+        return MeaningAnalysisResponse(sentences=sentences)
