@@ -8,5 +8,6 @@ services:
       - ../../api:/api
     environment:
       - PYTHONPATH=/api
-      - MODEL_PATH=/models/qwen2.5-0.5b-instruct
+      - MODEL_SUM_PATH=/models/qwen2.5-0.5b-instruct
+      - MODEL_SENTIMENT_PATH=/models/multilingual-sentiment-analysis
       - JVM_PATH=/usr/lib/jvm/default-java/lib/server/libjvm.so
